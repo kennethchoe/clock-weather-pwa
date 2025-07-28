@@ -5,6 +5,7 @@ class ClockWeatherApp {
         this.showDate = true;
         this.showWeekday = true;
         this.currentZipCode = '';
+        this.wakeLock = null;
         
         this.init();
     }
@@ -16,6 +17,7 @@ class ClockWeatherApp {
         this.startClock();
         this.loadSettings();
         this.startScreenSaver();
+        this.enableWakeLock();
     }
 
     setupClock() {
@@ -386,6 +388,65 @@ class ClockWeatherApp {
             this.zipcodeInput.value = '10001'; // New York as default
             this.currentZipCode = '10001';
             this.updateWeather();
+        }
+    }
+
+    async enableWakeLock() {
+        try {
+            // Check if Wake Lock API is supported
+            if ('wakeLock' in navigator) {
+                // Request wake lock
+                this.wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake lock enabled - screen will stay on');
+                this.updateWakeLockStatus(true);
+                
+                // Handle wake lock release
+                this.wakeLock.addEventListener('release', () => {
+                    console.log('Wake lock released');
+                    this.updateWakeLockStatus(false);
+                });
+                
+                // Re-request wake lock when page becomes visible again
+                document.addEventListener('visibilitychange', async () => {
+                    if (document.visibilityState === 'visible' && this.wakeLock === null) {
+                        try {
+                            this.wakeLock = await navigator.wakeLock.request('screen');
+                            console.log('Wake lock re-enabled');
+                            this.updateWakeLockStatus(true);
+                        } catch (err) {
+                            console.log('Failed to re-enable wake lock:', err);
+                            this.updateWakeLockStatus(false);
+                        }
+                    }
+                });
+            } else {
+                console.log('Wake Lock API not supported');
+                this.updateWakeLockStatus(false);
+            }
+        } catch (err) {
+            console.log('Failed to enable wake lock:', err);
+            this.updateWakeLockStatus(false);
+        }
+    }
+
+    updateWakeLockStatus(active) {
+        const statusElement = document.getElementById('wake-lock-status');
+        if (statusElement) {
+            if (active) {
+                statusElement.textContent = '🔋 Stay Awake';
+                statusElement.classList.remove('inactive');
+            } else {
+                statusElement.textContent = '🔋 Sleep Mode';
+                statusElement.classList.add('inactive');
+            }
+        }
+    }
+
+    disableWakeLock() {
+        if (this.wakeLock) {
+            this.wakeLock.release();
+            this.wakeLock = null;
+            console.log('Wake lock disabled');
         }
     }
 }
