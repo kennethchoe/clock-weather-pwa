@@ -8,20 +8,18 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #000000;
     color: white;
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
     width: 100vw;
     margin: 0;
     padding: 0;
     cursor: pointer;
-    position: fixed;
-    top: 0;
-    left: 0;
 }
 
 .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     transition: transform 2s ease-in-out;
 }
@@ -195,6 +193,7 @@ body {
     width: 100%;
     max-width: 500px;
     text-align: center;
+    min-height: 200px;
 }
 
 .location-input {
@@ -296,11 +295,14 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        height: auto;
+        min-height: 100vh;
     }
     
     .clock-section, .weather-section {
         flex: none;
-        height: 50vh;
+        min-height: 50vh;
+        height: auto;
         padding: 1rem;
     }
     
@@ -358,7 +360,14 @@ body {
 
 /* Small mobile devices */
 @media (max-width: 480px) {
+    .container {
+        height: auto;
+        min-height: 100vh;
+    }
+    
     .clock-section, .weather-section {
+        min-height: 50vh;
+        height: auto;
         padding: 0.5rem;
     }
     
@@ -420,10 +429,12 @@ body {
 @media (max-width: 768px) and (orientation: landscape) {
     .container {
         flex-direction: row;
+        height: 100vh;
     }
     
     .clock-section, .weather-section {
         height: 100vh;
+        min-height: auto;
         padding: 1rem;
     }
     
