@@ -51,7 +51,7 @@ body {
 }
 
 .time {
-    font-size: 18rem;
+    font-size: 15vw;
     font-weight: 200;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     margin-bottom: 1rem;
@@ -59,13 +59,13 @@ body {
 }
 
 .date {
-    font-size: 5rem;
+    font-size: 4vw;
     margin-bottom: 0.5rem;
     opacity: 0.9;
 }
 
 .weekday {
-    font-size: 3.5rem;
+    font-size: 3vw;
     opacity: 0.8;
 }
 
@@ -250,7 +250,7 @@ body {
 }
 
 .temperature {
-    font-size: 12rem;
+    font-size: 10vw;
     font-weight: 200;
     margin-bottom: 1rem;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
@@ -258,13 +258,13 @@ body {
 }
 
 .weather-description {
-    font-size: 4rem;
+    font-size: 3.5vw;
     margin-bottom: 1rem;
     opacity: 0.9;
 }
 
 .location {
-    font-size: 3rem;
+    font-size: 2.5vw;
     opacity: 0.8;
 }
 
@@ -282,12 +282,12 @@ body {
 }
 
 .detail-label {
-    font-size: 2.5rem;
+    font-size: 2vw;
     opacity: 0.8;
 }
 
 .detail-value {
-    font-size: 2.5rem;
+    font-size: 2vw;
     font-weight: 500;
 }
 
@@ -307,33 +307,33 @@ body {
     }
     
     .time {
-        font-size: 6rem;
+        font-size: 12vw;
         line-height: 0.9;
     }
     
     .date {
-        font-size: 2rem;
+        font-size: 3vw;
     }
     
     .weekday {
-        font-size: 1.5rem;
+        font-size: 2.5vw;
     }
     
     .temperature {
-        font-size: 4rem;
+        font-size: 8vw;
         line-height: 0.9;
     }
     
     .weather-description {
-        font-size: 2rem;
+        font-size: 3vw;
     }
     
     .location {
-        font-size: 1.5rem;
+        font-size: 2.5vw;
     }
     
     .detail-label, .detail-value {
-        font-size: 1.2rem;
+        font-size: 2vw;
     }
     
     .analog-clock {
@@ -372,31 +372,31 @@ body {
     }
     
     .time {
-        font-size: 4rem;
+        font-size: 10vw;
     }
     
     .date {
-        font-size: 1.5rem;
+        font-size: 2.5vw;
     }
     
     .weekday {
-        font-size: 1.2rem;
+        font-size: 2vw;
     }
     
     .temperature {
-        font-size: 3rem;
+        font-size: 6vw;
     }
     
     .weather-description {
-        font-size: 1.5rem;
+        font-size: 2.5vw;
     }
     
     .location {
-        font-size: 1.2rem;
+        font-size: 2vw;
     }
     
     .detail-label, .detail-value {
-        font-size: 1rem;
+        font-size: 1.5vw;
     }
     
     .analog-clock {
@@ -439,11 +439,11 @@ body {
     }
     
     .time {
-        font-size: 5rem;
+        font-size: 8vw;
     }
     
     .temperature {
-        font-size: 3.5rem;
+        font-size: 6vw;
     }
     
     .analog-clock {
