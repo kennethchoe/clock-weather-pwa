@@ -1,12 +1,12 @@
 # Clock & Weather PWA
 
-A beautiful Progressive Web App designed for Android tablets in landscape mode, featuring a large clock and weather display.
+A beautiful Progressive Web App designed for tablets, featuring a large clock and weather display with a clean, minimal dark interface.
 
 ## Features
 
 ### Clock Section (Left Half)
-- **Digital Clock**: Large, easy-to-read digital time display
-- **Analog Clock**: Classic analog clock with smooth hand movements
+- **Digital Clock**: Large, easy-to-read digital time display (HH:MM format)
+- **Analog Clock**: Classic analog clock with smooth hand movements including seconds
 - **Date Display**: Shows current date (toggleable)
 - **Weekday Display**: Shows current day of the week (toggleable)
 - **Settings**: Toggle between digital/analog, show/hide date and weekday
@@ -17,32 +17,24 @@ A beautiful Progressive Web App designed for Android tablets in landscape mode, 
 - **Weather Details**: Humidity, wind speed, and "feels like" temperature
 - **Auto-save**: Remembers your last used ZIP code
 
-## Setup Instructions
+### Interface Features
+- **Dark Mode**: Clean black background with white text
+- **Large Fonts**: Optimized for tablet viewing from a distance
+- **Click to Show Options**: Tap screen to reveal controls for 5 seconds
+- **Screen Saver**: Subtle movement every 30 seconds to prevent burn-in
+- **Minimal Design**: No visible controls by default for clean appearance
 
-### 1. Get Weather API Key
-1. Sign up for a free account at [OpenWeatherMap](https://openweathermap.org/api)
-2. Get your API key from your account dashboard
-3. Replace `YOUR_API_KEY` in `app.js` with your actual API key
+## Quick Start
 
-### 2. Create Icons (Optional)
-The app expects icons in the `icons/` directory. You can create simple icons or use placeholder images:
-- icon-72x72.png
-- icon-96x96.png
-- icon-128x128.png
-- icon-144x144.png
-- icon-152x152.png
-- icon-192x192.png
-- icon-384x384.png
-- icon-512x512.png
+### 1. Deploy to GitHub Pages (Recommended)
+1. Create a new repository on GitHub
+2. Push this code to your repository
+3. Enable GitHub Pages in repository settings
+4. Your PWA will be available at `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
-### 3. Deploy to Web Server
-Upload all files to a web server with HTTPS (required for PWA installation).
-
-### 4. Install on Android Tablet
-1. Open the app in Chrome on your Android tablet
-2. Tap the menu (three dots) in Chrome
-3. Select "Add to Home screen" or "Install app"
-4. The app will appear on your home screen
+### 2. Install on Your Tablet
+- **Android**: Open in Chrome → Three dots → "Add to Home screen"
+- **iPad**: Open in Safari → Share button → "Add to Home Screen"
 
 ## Usage
 
@@ -56,13 +48,18 @@ Upload all files to a web server with HTTPS (required for PWA installation).
 - **Update Button**: Click to fetch current weather data
 - **Enter Key**: Press Enter in the ZIP code field to update weather
 
+### Interface Controls
+- **Click Screen**: Tap anywhere to show options for 5 seconds
+- **Automatic Hide**: Options disappear automatically after 5 seconds
+
 ## Technical Details
 
 - **PWA Features**: Offline support, installable, service worker caching
-- **Responsive Design**: Optimized for landscape tablet view
+- **Responsive Design**: Optimized for tablet view with large fonts
 - **Local Storage**: Saves user preferences and ZIP code
-- **Weather API**: OpenWeatherMap Current Weather API
+- **Weather API**: Free Open-Meteo API (no API key required)
 - **Clock Precision**: Updates every second with smooth animations
+- **Screen Protection**: Automatic movement to prevent display burn-in
 
 ## File Structure
 
@@ -74,15 +71,7 @@ clock-weather-pwa/
 ├── manifest.json      # PWA manifest
 ├── sw.js             # Service worker
 ├── README.md         # This file
-└── icons/            # App icons (create these)
-    ├── icon-72x72.png
-    ├── icon-96x96.png
-    ├── icon-128x128.png
-    ├── icon-144x144.png
-    ├── icon-152x152.png
-    ├── icon-192x192.png
-    ├── icon-384x384.png
-    └── icon-512x512.png
+└── DEPLOYMENT.md     # Deployment instructions
 ```
 
 ## Browser Compatibility
