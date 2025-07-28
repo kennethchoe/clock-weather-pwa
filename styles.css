@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #000000;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    transition: transform 2s ease-in-out;
+}
+
+/* Clock Section (Left Half) */
+.clock-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: transparent;
+}
+
+.clock-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Digital Clock */
+.digital-clock {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 300;
+}
+
+.time {
+    font-size: 18rem;
+    font-weight: 200;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    margin-bottom: 1rem;
+    line-height: 0.9;
+}
+
+.date {
+    font-size: 5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.weekday {
+    font-size: 3.5rem;
+    opacity: 0.8;
+}
+
+/* Analog Clock */
+.analog-clock {
+    width: 400px;
+    height: 400px;
+    position: relative;
+}
+
+.clock-face {
+    width: 100%;
+    height: 100%;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    position: relative;
+    background: transparent;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.hour-hand {
+    width: 8px;
+    height: 30%;
+    background: linear-gradient(to top, #fff, #ccc);
+}
+
+.minute-hand {
+    width: 6px;
+    height: 40%;
+    background: linear-gradient(to top, #fff, #ddd);
+}
+
+.second-hand {
+    width: 3px;
+    height: 45%;
+    background: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.center-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.number {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.number-12 { top: 10px; left: 50%; transform: translateX(-50%); }
+.number-1 { top: 10%; right: 25%; }
+.number-2 { top: 25%; right: 10%; }
+.number-3 { top: 50%; right: 10px; transform: translateY(-50%); }
+.number-4 { bottom: 25%; right: 10%; }
+.number-5 { bottom: 10%; right: 25%; }
+.number-6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.number-7 { bottom: 10%; left: 25%; }
+.number-8 { bottom: 25%; left: 10%; }
+.number-9 { top: 50%; left: 10px; transform: translateY(-50%); }
+.number-10 { top: 25%; left: 10%; }
+.number-11 { top: 10%; left: 25%; }
+
+.hidden {
+    display: none;
+}
+
+/* Clock Settings */
+.clock-settings {
+    display: none;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.setting-btn {
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.setting-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Weather Section (Right Half) */
+.weather-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: transparent;
+}
+
+.weather-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.location-input {
+    display: none;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+#zipcode {
+    padding: 1.5rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    width: 250px;
+}
+
+#zipcode::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.update-btn {
+    padding: 1.5rem 2.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.update-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.weather-display {
+    background: transparent;
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.weather-main {
+    margin-bottom: 2rem;
+}
+
+.temperature {
+    font-size: 12rem;
+    font-weight: 200;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    line-height: 0.9;
+}
+
+.weather-description {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.location {
+    font-size: 3rem;
+    opacity: 0.8;
+}
+
+.weather-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.detail-label {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.detail-value {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .clock-section, .weather-section {
+        flex: none;
+        height: 50vh;
+    }
+    
+    .time {
+        font-size: 4rem;
+    }
+    
+    .temperature {
+        font-size: 3rem;
+    }
+    
+    .analog-clock {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+* {
+    transition: all 0.3s ease;
+} 

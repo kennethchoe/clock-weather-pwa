@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .icon-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background: white;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Icon Generator</h1>
+    <p>Click the button below to generate placeholder icons for your PWA:</p>
+    <button onclick="generateIcons()">Generate Icons</button>
+    <div id="icons"></div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function generateIcons() {
+            const container = document.getElementById('icons');
+            container.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                // Background gradient
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#667eea');
+                gradient.addColorStop(1, '#764ba2');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, size, size);
+                
+                // Clock face
+                const centerX = size / 2;
+                const centerY = size / 2;
+                const radius = size * 0.3;
+                
+                // Clock circle
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = size * 0.02;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.stroke();
+                
+                // Clock hands
+                const now = new Date();
+                const hours = now.getHours() % 12;
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                
+                // Hour hand
+                const hourAngle = (hours * 30) + (minutes * 0.5);
+                drawHand(ctx, centerX, centerY, radius * 0.5, hourAngle, size * 0.015, 'white');
+                
+                // Minute hand
+                const minuteAngle = minutes * 6;
+                drawHand(ctx, centerX, centerY, radius * 0.7, minuteAngle, size * 0.01, 'white');
+                
+                // Second hand
+                const secondAngle = seconds * 6;
+                drawHand(ctx, centerX, centerY, radius * 0.8, secondAngle, size * 0.005, '#ff6b6b');
+                
+                // Center dot
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, size * 0.02, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Weather icon (cloud)
+                const cloudX = centerX + radius * 0.8;
+                const cloudY = centerY - radius * 0.3;
+                const cloudRadius = size * 0.08;
+                
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(cloudX, cloudY, cloudRadius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cloudX + cloudRadius * 0.5, cloudY, cloudRadius * 0.7, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cloudX - cloudRadius * 0.5, cloudY, cloudRadius * 0.7, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                const div = document.createElement('div');
+                div.className = 'icon-container';
+                div.innerHTML = `
+                    <canvas id="canvas-${size}"></canvas>
+                    <p>${size}x${size}</p>
+                    <button onclick="downloadIcon(${size})">Download</button>
+                `;
+                container.appendChild(div);
+                
+                // Copy canvas content
+                const newCanvas = document.getElementById(`canvas-${size}`);
+                const newCtx = newCanvas.getContext('2d');
+                newCanvas.width = size;
+                newCanvas.height = size;
+                newCtx.drawImage(canvas, 0, 0);
+            });
+        }
+        
+        function drawHand(ctx, x, y, length, angle, width, color) {
+            const radians = (angle - 90) * Math.PI / 180;
+            const endX = x + length * Math.cos(radians);
+            const endY = y + length * Math.sin(radians);
+            
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+        }
+        
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas-${size}`);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Generate icons on page load
+        window.onload = generateIcons;
+    </script>
+</body>
+</html> 
