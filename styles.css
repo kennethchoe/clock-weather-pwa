@@ -201,6 +201,7 @@ body {
     gap: 1rem;
     margin-bottom: 2rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 #zipcode {
@@ -356,6 +357,11 @@ body {
         padding: 1rem 2rem;
         font-size: 1.5rem;
     }
+    
+    #current-location {
+        font-size: 1.2rem;
+        padding: 1rem 1.5rem;
+    }
 }
 
 /* Small mobile devices */
@@ -418,6 +424,11 @@ body {
     .update-btn {
         padding: 0.75rem 1.5rem;
         font-size: 1.2rem;
+    }
+    
+    #current-location {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
     }
     
     .weather-display {

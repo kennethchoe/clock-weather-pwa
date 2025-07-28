@@ -39,6 +39,9 @@ class ClockWeatherApp {
         this.humidityElement = document.getElementById('humidity');
         this.windElement = document.getElementById('wind');
         this.feelsLikeElement = document.getElementById('feels-like');
+        
+        // Add location button for current location
+        this.locationBtn = document.getElementById('current-location');
     }
 
     setupEventListeners() {
@@ -55,16 +58,16 @@ class ClockWeatherApp {
             }
         });
 
+        // Current location button
+        if (this.locationBtn) {
+            this.locationBtn.addEventListener('click', () => this.getCurrentLocation());
+        }
+
         // Click to show options
         document.addEventListener('click', () => this.showOptions());
 
-        // Load saved zip code
-        const savedZipCode = localStorage.getItem('zipCode');
-        if (savedZipCode) {
-            this.zipcodeInput.value = savedZipCode;
-            this.currentZipCode = savedZipCode;
-            this.updateWeather();
-        }
+        // Try to get current location on startup
+        this.getCurrentLocation();
     }
 
     startClock() {
@@ -313,6 +316,76 @@ class ClockWeatherApp {
                 clockSettings.style.display = 'none';
                 locationInput.style.display = 'none';
             }, 5000);
+        }
+    }
+
+    getCurrentLocation() {
+        if (!navigator.geolocation) {
+            console.log('Geolocation is not supported by this browser');
+            this.fallbackToSavedLocation();
+            return;
+        }
+
+        // Show loading state
+        this.showWeatherLoading();
+        this.locationElement.textContent = 'Getting location...';
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                this.updateWeatherByCoordinates(latitude, longitude);
+            },
+            (error) => {
+                console.log('Error getting location:', error);
+                this.locationElement.textContent = 'Location access denied';
+                this.fallbackToSavedLocation();
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 60000
+            }
+        );
+    }
+
+    async updateWeatherByCoordinates(latitude, longitude) {
+        try {
+            // Get location name from coordinates using reverse geocoding
+            const locationResponse = await fetch(`https://api.open-meteo.com/v1/geocoding?latitude=${latitude}&longitude=${longitude}&count=1`);
+            const locationData = await locationResponse.json();
+            
+            if (locationData.results && locationData.results.length > 0) {
+                const location = locationData.results[0];
+                this.locationElement.textContent = `${location.name}, ${location.country}`;
+                
+                // Get weather data
+                const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`);
+                const weatherData = await weatherResponse.json();
+                
+                this.displayWeatherOpenMeteo(weatherData, location);
+            } else {
+                this.locationElement.textContent = 'Location not found';
+                this.displayWeatherError();
+            }
+        } catch (error) {
+            console.error('Error fetching weather by coordinates:', error);
+            this.locationElement.textContent = 'Weather fetch failed';
+            this.displayWeatherError();
+        }
+    }
+
+    fallbackToSavedLocation() {
+        // Load saved zip code as fallback
+        const savedZipCode = localStorage.getItem('zipCode');
+        if (savedZipCode) {
+            this.zipcodeInput.value = savedZipCode;
+            this.currentZipCode = savedZipCode;
+            this.updateWeather();
+        } else {
+            // Set default location if no saved location
+            this.zipcodeInput.value = '10001'; // New York as default
+            this.currentZipCode = '10001';
+            this.updateWeather();
         }
     }
 }
