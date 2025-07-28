@@ -2,7 +2,7 @@
     "name": "Clock & Weather PWA",
     "short_name": "ClockWeather",
     "description": "A beautiful clock and weather app for your tablet",
-    "start_url": "/",
+    "start_url": "/clock-weather-pwa/",
     "display": "fullscreen",
     "orientation": "landscape",
     "theme_color": "#000000",
@@ -16,6 +16,6 @@
     ],
     "categories": ["utilities", "weather"],
     "lang": "en",
-    "scope": "/",
+    "scope": "/clock-weather-pwa/",
     "prefer_related_applications": false
 } 
