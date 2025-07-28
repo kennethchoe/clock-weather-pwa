@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clock-weather-v2';
+const CACHE_NAME = 'clock-weather-v3';
 const urlsToCache = [
     '/clock-weather-pwa/',
     '/clock-weather-pwa/index.html',
@@ -24,7 +24,12 @@ self.addEventListener('fetch', event => {
         caches.match(event.request)
             .then(response => {
                 // Return cached version or fetch from network
-                return response || fetch(event.request);
+                if (response) {
+                    console.log('Serving from cache:', event.request.url);
+                    return response;
+                }
+                console.log('Fetching from network:', event.request.url);
+                return fetch(event.request);
             })
     );
 });
@@ -35,12 +40,16 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
+                    console.log('Checking cache:', cacheName);
                     if (cacheName !== CACHE_NAME) {
                         console.log('Deleting old cache:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
             );
+        }).then(() => {
+            // Force clients to reload
+            return self.clients.claim();
         })
     );
 });
