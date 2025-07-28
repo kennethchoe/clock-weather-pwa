@@ -87,3 +87,12 @@ clock-weather-pwa/
 - Weather data requires an internet connection
 - Clock functionality works offline
 - Settings are saved locally in the browser 
+
+## PWA Troubleshooting
+
+In case you don't see https://kennethchoe.github.io/clock-weather-pwa but see https://kennethchoe.github.io/, follow these steps. Confirmed working on Android Chrome.
+
+1. Open https://kennethchoe.github.io/clock-weather-pwa on Chrome.
+2. Click ... and turn on Desktop site mode.
+3. Click ... and select Add to home screen.
+4. You see Install option. Select that.

@@ -170,6 +170,8 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .setting-btn:hover {
@@ -228,6 +230,8 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .update-btn:hover {
@@ -297,19 +301,143 @@ body {
     .clock-section, .weather-section {
         flex: none;
         height: 50vh;
+        padding: 1rem;
+    }
+    
+    .time {
+        font-size: 6rem;
+        line-height: 0.9;
+    }
+    
+    .date {
+        font-size: 2rem;
+    }
+    
+    .weekday {
+        font-size: 1.5rem;
+    }
+    
+    .temperature {
+        font-size: 4rem;
+        line-height: 0.9;
+    }
+    
+    .weather-description {
+        font-size: 2rem;
+    }
+    
+    .location {
+        font-size: 1.5rem;
+    }
+    
+    .detail-label, .detail-value {
+        font-size: 1.2rem;
+    }
+    
+    .analog-clock {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .setting-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    #zipcode {
+        padding: 1rem 1.5rem;
+        font-size: 1.5rem;
+        width: 180px;
+    }
+    
+    .update-btn {
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .clock-section, .weather-section {
+        padding: 0.5rem;
     }
     
     .time {
         font-size: 4rem;
     }
     
+    .date {
+        font-size: 1.5rem;
+    }
+    
+    .weekday {
+        font-size: 1.2rem;
+    }
+    
     .temperature {
         font-size: 3rem;
     }
     
+    .weather-description {
+        font-size: 1.5rem;
+    }
+    
+    .location {
+        font-size: 1.2rem;
+    }
+    
+    .detail-label, .detail-value {
+        font-size: 1rem;
+    }
+    
     .analog-clock {
-        width: 250px;
-        height: 250px;
+        width: 150px;
+        height: 150px;
+    }
+    
+    .setting-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    #zipcode {
+        padding: 0.75rem 1rem;
+        font-size: 1.2rem;
+        width: 140px;
+    }
+    
+    .update-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .weather-display {
+        padding: 1rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        flex-direction: row;
+    }
+    
+    .clock-section, .weather-section {
+        height: 100vh;
+        padding: 1rem;
+    }
+    
+    .time {
+        font-size: 5rem;
+    }
+    
+    .temperature {
+        font-size: 3.5rem;
+    }
+    
+    .analog-clock {
+        width: 180px;
+        height: 180px;
     }
 }
 
