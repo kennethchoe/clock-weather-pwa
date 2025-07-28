@@ -1,10 +1,10 @@
-const CACHE_NAME = 'clock-weather-v3';
+const CACHE_NAME = 'clock-weather-v4';
 const urlsToCache = [
     '/clock-weather-pwa/',
     '/clock-weather-pwa/index.html',
-    '/clock-weather-pwa/styles.css',
-    '/clock-weather-pwa/app.js',
-    '/clock-weather-pwa/manifest.json'
+    '/clock-weather-pwa/styles.css?v=3',
+    '/clock-weather-pwa/app.js?v=3',
+    '/clock-weather-pwa/manifest.json?v=3'
 ];
 
 // Install event - cache resources
