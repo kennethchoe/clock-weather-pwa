@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background: #000000;
     color: white;
     overflow-x: hidden;
@@ -157,18 +157,58 @@ body {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.number-12 { top: 10px; left: 50%; transform: translateX(-50%); }
-.number-1 { top: 10%; right: 25%; }
-.number-2 { top: 25%; right: 10%; }
-.number-3 { top: 50%; right: 10px; transform: translateY(-50%); }
-.number-4 { bottom: 25%; right: 10%; }
-.number-5 { bottom: 10%; right: 25%; }
-.number-6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
-.number-7 { bottom: 10%; left: 25%; }
-.number-8 { bottom: 25%; left: 10%; }
-.number-9 { top: 50%; left: 10px; transform: translateY(-50%); }
-.number-10 { top: 25%; left: 10%; }
-.number-11 { top: 10%; left: 25%; }
+.number-12 {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.number-1 {
+    top: 10%;
+    right: 25%;
+}
+.number-2 {
+    top: 25%;
+    right: 10%;
+}
+.number-3 {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+.number-4 {
+    bottom: 25%;
+    right: 10%;
+}
+.number-5 {
+    bottom: 10%;
+    right: 25%;
+}
+.number-6 {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.number-7 {
+    bottom: 10%;
+    left: 25%;
+}
+.number-8 {
+    bottom: 25%;
+    left: 10%;
+}
+.number-9 {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+.number-10 {
+    top: 25%;
+    left: 10%;
+}
+.number-11 {
+    top: 10%;
+    left: 25%;
+}
 
 .hidden {
     display: none;
@@ -292,6 +332,14 @@ body {
     opacity: 0.8;
 }
 
+.last-updated {
+    font-size: 1.5vw;
+    opacity: 0.6;
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
 .weather-details {
     display: flex;
     flex-direction: column;
@@ -322,65 +370,71 @@ body {
         height: auto;
         min-height: 100vh;
     }
-    
-    .clock-section, .weather-section {
+
+    .clock-section,
+    .weather-section {
         flex: none;
         min-height: 50vh;
         height: auto;
         padding: 1rem;
     }
-    
+
     .time {
         font-size: 12vw;
         line-height: 0.9;
     }
-    
+
     .date {
         font-size: 3vw;
     }
-    
+
     .weekday {
         font-size: 2.5vw;
     }
-    
+
     .temperature {
         font-size: 8vw;
         line-height: 0.9;
     }
-    
+
     .weather-description {
         font-size: 3vw;
     }
-    
+
     .location {
         font-size: 2.5vw;
     }
-    
-    .detail-label, .detail-value {
+
+    .last-updated {
+        font-size: 1.8vw;
+    }
+
+    .detail-label,
+    .detail-value {
         font-size: 2vw;
     }
-    
+
     .analog-clock {
         width: 200px;
         height: 200px;
     }
-    
+
     .setting-btn {
         padding: 0.75rem 1.5rem;
         font-size: 1rem;
     }
-    
+
     #zipcode {
         padding: 1rem 1.5rem;
         font-size: 1.5rem;
         width: 180px;
     }
-    
+
     .update-btn {
         padding: 1rem 2rem;
         font-size: 1.5rem;
     }
-    
+
     #current-location {
         font-size: 1.2rem;
         padding: 1rem 1.5rem;
@@ -393,71 +447,77 @@ body {
         height: auto;
         min-height: 100vh;
     }
-    
-    .clock-section, .weather-section {
+
+    .clock-section,
+    .weather-section {
         min-height: 50vh;
         height: auto;
         padding: 0.5rem;
     }
-    
+
     .time {
         font-size: 10vw;
     }
-    
+
     .date {
         font-size: 2.5vw;
     }
-    
+
     .weekday {
         font-size: 2vw;
     }
-    
+
     .temperature {
         font-size: 6vw;
     }
-    
+
     .weather-description {
         font-size: 2.5vw;
     }
-    
+
     .location {
         font-size: 2vw;
     }
-    
-    .detail-label, .detail-value {
+
+    .last-updated {
         font-size: 1.5vw;
     }
-    
+
+    .detail-label,
+    .detail-value {
+        font-size: 1.5vw;
+    }
+
     .analog-clock {
         width: 150px;
         height: 150px;
     }
-    
+
     .setting-btn {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
     }
-    
+
     #zipcode {
         padding: 0.75rem 1rem;
         font-size: 1.2rem;
         width: 140px;
     }
-    
+
     .update-btn {
         padding: 0.75rem 1.5rem;
         font-size: 1.2rem;
     }
-    
+
     #current-location {
         font-size: 1rem;
         padding: 0.75rem 1.5rem;
     }
-    
+
     .weather-display {
         padding: 1rem;
     }
-    
+
     .wake-lock-status {
         font-size: 0.6rem;
         padding: 3px 8px;
@@ -470,21 +530,22 @@ body {
         flex-direction: row;
         height: 100vh;
     }
-    
-    .clock-section, .weather-section {
+
+    .clock-section,
+    .weather-section {
         height: 100vh;
         min-height: auto;
         padding: 1rem;
     }
-    
+
     .time {
         font-size: 8vw;
     }
-    
+
     .temperature {
         font-size: 6vw;
     }
-    
+
     .analog-clock {
         width: 180px;
         height: 180px;
@@ -493,8 +554,13 @@ body {
 
 /* Loading Animation */
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
 
 .loading {
@@ -504,4 +570,4 @@ body {
 /* Smooth transitions */
 * {
     transition: all 0.3s ease;
-} 
+}

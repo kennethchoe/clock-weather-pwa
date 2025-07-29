@@ -18,6 +18,7 @@ class ClockWeatherApp {
         this.loadSettings();
         this.startScreenSaver();
         this.enableWakeLock();
+        this.startWeatherRefresh();
     }
 
     setupClock() {
@@ -43,6 +44,7 @@ class ClockWeatherApp {
         this.humidityElement = document.getElementById("humidity");
         this.windElement = document.getElementById("wind");
         this.feelsLikeElement = document.getElementById("feels-like");
+        this.lastUpdatedElement = document.getElementById("last-updated");
 
         // Add location button for current location
         this.locationBtn = document.getElementById("current-location");
@@ -87,6 +89,27 @@ class ClockWeatherApp {
     startClock() {
         this.updateClock();
         setInterval(() => this.updateClock(), 1000);
+    }
+
+    startWeatherRefresh() {
+        // Initial weather update happens via getCurrentLocation() in setupEventListeners
+
+        // Set up automatic refresh every 5 minutes (300000 ms)
+        this.weatherRefreshInterval = setInterval(() => {
+            console.log("Auto-refreshing weather data");
+
+            // If we have coordinates from geolocation, use those
+            if (this.lastLatitude && this.lastLongitude) {
+                this.updateWeatherByCoordinates(
+                    this.lastLatitude,
+                    this.lastLongitude
+                );
+            }
+            // Otherwise use the last ZIP code if available
+            else if (this.currentZipCode) {
+                this.updateWeather(false); // Pass false to avoid showing loading indicator
+            }
+        }, 300000); // 5 minutes
     }
 
     updateClock() {
@@ -160,7 +183,7 @@ class ClockWeatherApp {
         this.saveSettings();
     }
 
-    async updateWeather() {
+    async updateWeather(showLoading = true) {
         const zipCode = this.zipcodeInput.value.trim();
         if (!zipCode) {
             alert("Please enter a ZIP code");
@@ -170,7 +193,9 @@ class ClockWeatherApp {
         this.currentZipCode = zipCode;
         localStorage.setItem("zipCode", zipCode);
 
-        this.showWeatherLoading();
+        if (showLoading) {
+            this.showWeatherLoading();
+        }
 
         try {
             // Use a free ZIP code to coordinates service
@@ -223,6 +248,9 @@ class ClockWeatherApp {
 
         const current = weatherData.current;
         const weatherCode = current.weather_code;
+
+        // Update last updated timestamp
+        this.updateLastUpdatedTime();
 
         // Convert weather code to description
         const weatherDescriptions = {
@@ -280,6 +308,19 @@ class ClockWeatherApp {
         this.feelsLikeElement.textContent = `${Math.round(
             data.main.feels_like
         )}°F`;
+
+        // Update last updated timestamp
+        this.updateLastUpdatedTime();
+    }
+
+    updateLastUpdatedTime() {
+        if (this.lastUpdatedElement) {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, "0");
+            const minutes = now.getMinutes().toString().padStart(2, "0");
+            this.lastUpdatedElement.textContent = `Updated: ${hours}:${minutes}`;
+            this.lastUpdatedElement.style.display = "block";
+        }
     }
 
     displayWeatherError() {
@@ -395,6 +436,10 @@ class ClockWeatherApp {
     }
 
     async updateWeatherByCoordinates(latitude, longitude) {
+        // Store coordinates for refresh
+        this.lastLatitude = latitude;
+        this.lastLongitude = longitude;
+
         try {
             // Get location name from coordinates using reverse geocoding with Nominatim API
             const locationResponse = await fetch(

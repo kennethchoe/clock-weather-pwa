@@ -1,94 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, maximum-scale=1.0">
-    <title>Clock & Weather PWA</title>
-    <meta name="description" content="Clock and Weather PWA for tablet">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ClockWeather">
-    <link rel="manifest" href="manifest.json?v=3">
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <link rel="stylesheet" href="styles.css?v=3">
-</head>
-<body>
-    <div class="container">
-        <!-- Wake Lock Status Indicator -->
-        <div id="wake-lock-status" class="wake-lock-status">🔋 Stay Awake</div>
-        
-        <!-- Left Half - Clock Section -->
-        <div class="clock-section">
-            <div class="clock-container">
-                <div id="digital-clock" class="digital-clock">
-                    <div id="time" class="time">00:00:00</div>
-                    <div id="date" class="date">January 1, 2024</div>
-                    <div id="weekday" class="weekday">Monday</div>
-                </div>
-                <div id="analog-clock" class="analog-clock hidden">
-                    <div class="clock-face">
-                        <div class="hand hour-hand" id="hour-hand"></div>
-                        <div class="hand minute-hand" id="minute-hand"></div>
-                        <div class="hand second-hand" id="second-hand"></div>
-                        <div class="center-dot"></div>
-                        <!-- Clock numbers -->
-                        <div class="number number-12">12</div>
-                        <div class="number number-1">1</div>
-                        <div class="number number-2">2</div>
-                        <div class="number number-3">3</div>
-                        <div class="number number-4">4</div>
-                        <div class="number number-5">5</div>
-                        <div class="number number-6">6</div>
-                        <div class="number number-7">7</div>
-                        <div class="number number-8">8</div>
-                        <div class="number number-9">9</div>
-                        <div class="number number-10">10</div>
-                        <div class="number number-11">11</div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, maximum-scale=1.0"
+        />
+        <title>Clock & Weather PWA</title>
+        <meta name="description" content="Clock and Weather PWA for tablet" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="ClockWeather" />
+        <link rel="manifest" href="manifest.json?v=3" />
+        <link rel="icon" type="image/png" href="icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+        <link rel="stylesheet" href="styles.css?v=3" />
+    </head>
+    <body>
+        <div class="container">
+            <!-- Wake Lock Status Indicator -->
+            <div id="wake-lock-status" class="wake-lock-status">
+                🔋 Stay Awake
+            </div>
+
+            <!-- Left Half - Clock Section -->
+            <div class="clock-section">
+                <div class="clock-container">
+                    <div id="digital-clock" class="digital-clock">
+                        <div id="time" class="time">00:00:00</div>
+                        <div id="date" class="date">January 1, 2024</div>
+                        <div id="weekday" class="weekday">Monday</div>
+                    </div>
+                    <div id="analog-clock" class="analog-clock hidden">
+                        <div class="clock-face">
+                            <div class="hand hour-hand" id="hour-hand"></div>
+                            <div
+                                class="hand minute-hand"
+                                id="minute-hand"
+                            ></div>
+                            <div
+                                class="hand second-hand"
+                                id="second-hand"
+                            ></div>
+                            <div class="center-dot"></div>
+                            <!-- Clock numbers -->
+                            <div class="number number-12">12</div>
+                            <div class="number number-1">1</div>
+                            <div class="number number-2">2</div>
+                            <div class="number number-3">3</div>
+                            <div class="number number-4">4</div>
+                            <div class="number number-5">5</div>
+                            <div class="number number-6">6</div>
+                            <div class="number number-7">7</div>
+                            <div class="number number-8">8</div>
+                            <div class="number number-9">9</div>
+                            <div class="number number-10">10</div>
+                            <div class="number number-11">11</div>
+                        </div>
                     </div>
                 </div>
+                <div class="clock-settings">
+                    <button id="toggle-clock" class="setting-btn">
+                        Switch to Analog
+                    </button>
+                    <button id="toggle-date" class="setting-btn">
+                        Hide Date
+                    </button>
+                    <button id="toggle-weekday" class="setting-btn">
+                        Hide Weekday
+                    </button>
+                </div>
             </div>
-            <div class="clock-settings">
-                <button id="toggle-clock" class="setting-btn">Switch to Analog</button>
-                <button id="toggle-date" class="setting-btn">Hide Date</button>
-                <button id="toggle-weekday" class="setting-btn">Hide Weekday</button>
+
+            <!-- Right Half - Weather Section -->
+            <div class="weather-section">
+                <div class="weather-container">
+                    <div class="location-input">
+                        <input
+                            type="text"
+                            id="zipcode"
+                            placeholder="Enter ZIP Code"
+                            maxlength="5"
+                        />
+                        <button id="update-location" class="update-btn">
+                            Update
+                        </button>
+                        <button id="current-location" class="update-btn">
+                            📍 Current Location
+                        </button>
+                    </div>
+                    <div id="weather-display" class="weather-display">
+                        <div class="weather-main">
+                            <div id="temperature" class="temperature">--°F</div>
+                            <div
+                                id="weather-description"
+                                class="weather-description"
+                            >
+                                Loading...
+                            </div>
+                            <div id="location" class="location">
+                                Enter ZIP Code
+                            </div>
+                            <div id="last-updated" class="last-updated">
+                                Updated: --:--
+                            </div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Humidity:</span>
+                                <span id="humidity" class="detail-value"
+                                    >--%</span
+                                >
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Wind:</span>
+                                <span id="wind" class="detail-value"
+                                    >-- mph</span
+                                >
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Feels like:</span>
+                                <span id="feels-like" class="detail-value"
+                                    >--°F</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Right Half - Weather Section -->
-        <div class="weather-section">
-            <div class="weather-container">
-                <div class="location-input">
-                    <input type="text" id="zipcode" placeholder="Enter ZIP Code" maxlength="5">
-                    <button id="update-location" class="update-btn">Update</button>
-                    <button id="current-location" class="update-btn">📍 Current Location</button>
-                </div>
-                <div id="weather-display" class="weather-display">
-                    <div class="weather-main">
-                        <div id="temperature" class="temperature">--°F</div>
-                        <div id="weather-description" class="weather-description">Loading...</div>
-                        <div id="location" class="location">Enter ZIP Code</div>
-                    </div>
-                    <div class="weather-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Humidity:</span>
-                            <span id="humidity" class="detail-value">--%</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Wind:</span>
-                            <span id="wind" class="detail-value">-- mph</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Feels like:</span>
-                            <span id="feels-like" class="detail-value">--°F</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="app.js?v=3"></script>
-</body>
-</html> 
+        <script src="app.js?v=3"></script>
+    </body>
+</html>
