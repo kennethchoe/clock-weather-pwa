@@ -15,10 +15,10 @@
             content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="ClockWeather" />
-        <link rel="manifest" href="manifest.json?v=3" />
+        <link rel="manifest" href="manifest.json?v=4" />
         <link rel="icon" type="image/png" href="icons/icon-192x192.png" />
         <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
-        <link rel="stylesheet" href="styles.css?v=3" />
+        <link rel="stylesheet" href="styles.css?v=4" />
     </head>
     <body>
         <div class="container">
@@ -31,9 +31,11 @@
             <div class="clock-section">
                 <div class="clock-container">
                     <div id="digital-clock" class="digital-clock">
-                        <div id="time" class="time">00:00:00</div>
+                        <div id="time" class="time">
+                            <span id="hours-minutes">00:00</span>
+                            <span id="seconds" class="seconds">00</span>
+                        </div>
                         <div id="date" class="date">January 1, 2024</div>
-                        <div id="weekday" class="weekday">Monday</div>
                     </div>
                     <div id="analog-clock" class="analog-clock hidden">
                         <div class="clock-face">
@@ -70,8 +72,8 @@
                     <button id="toggle-date" class="setting-btn">
                         Hide Date
                     </button>
-                    <button id="toggle-weekday" class="setting-btn">
-                        Hide Weekday
+                    <button id="toggle-seconds" class="setting-btn">
+                        Hide Seconds
                     </button>
                 </div>
             </div>
@@ -134,6 +136,6 @@
             </div>
         </div>
 
-        <script src="app.js?v=3"></script>
+        <script src="app.js?v=4"></script>
     </body>
 </html>

@@ -3,9 +3,13 @@ class ClockWeatherApp {
     constructor() {
         this.clockType = "digital"; // 'digital' or 'analog'
         this.showDate = true;
+        this.showSeconds = true; // Track seconds visibility
         this.showWeekday = true;
         this.currentZipCode = "";
         this.wakeLock = null;
+        this.prevSeconds = 0; // Track previous seconds value
+        this.inactivityTimer = null; // Timer for tracking user inactivity
+        this.menuVisible = false; // Track if menu is visible
 
         this.init();
     }
@@ -26,7 +30,7 @@ class ClockWeatherApp {
         this.analogClock = document.getElementById("analog-clock");
         this.timeElement = document.getElementById("time");
         this.dateElement = document.getElementById("date");
-        this.weekdayElement = document.getElementById("weekday");
+        this.secondsElement = document.getElementById("seconds");
 
         this.hourHand = document.getElementById("hour-hand");
         this.minuteHand = document.getElementById("minute-hand");
@@ -54,33 +58,60 @@ class ClockWeatherApp {
         // Clock controls
         document
             .getElementById("toggle-clock")
-            .addEventListener("click", () => this.toggleClockType());
+            .addEventListener("click", () => {
+                this.toggleClockType();
+                this.resetInactivityTimer();
+            });
+        document.getElementById("toggle-date").addEventListener("click", () => {
+            this.toggleDate();
+            this.resetInactivityTimer();
+        });
         document
-            .getElementById("toggle-date")
-            .addEventListener("click", () => this.toggleDate());
-        document
-            .getElementById("toggle-weekday")
-            .addEventListener("click", () => this.toggleWeekday());
+            .getElementById("toggle-seconds")
+            .addEventListener("click", () => {
+                this.toggleSeconds();
+                this.resetInactivityTimer();
+            });
 
         // Weather controls
-        this.updateLocationBtn.addEventListener("click", () =>
-            this.updateWeather()
-        );
+        this.updateLocationBtn.addEventListener("click", () => {
+            this.updateWeather();
+            this.resetInactivityTimer();
+        });
         this.zipcodeInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 this.updateWeather();
+                this.resetInactivityTimer();
             }
         });
 
+        // Input events to reset inactivity timer
+        this.zipcodeInput.addEventListener("input", () =>
+            this.resetInactivityTimer()
+        );
+
         // Current location button
         if (this.locationBtn) {
-            this.locationBtn.addEventListener("click", () =>
-                this.getCurrentLocation()
-            );
+            this.locationBtn.addEventListener("click", () => {
+                this.getCurrentLocation();
+                this.resetInactivityTimer();
+            });
         }
 
-        // Click to show options
-        document.addEventListener("click", () => this.showOptions());
+        // User activity events
+        document.addEventListener("click", () => {
+            this.showOptions();
+            this.resetInactivityTimer();
+        });
+        document.addEventListener("touchstart", () =>
+            this.resetInactivityTimer()
+        );
+        document.addEventListener("mousemove", () =>
+            this.resetInactivityTimer()
+        );
+        document.addEventListener("keypress", () =>
+            this.resetInactivityTimer()
+        );
 
         // Try to get current location on startup
         this.getCurrentLocation();
@@ -116,25 +147,26 @@ class ClockWeatherApp {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, "0");
         const minutes = now.getMinutes().toString().padStart(2, "0");
-        const seconds = now.getSeconds().toString().padStart(2, "0");
+        const seconds = parseInt(now.getSeconds());
+        const secondsStr = seconds.toString().padStart(2, "0");
 
-        // Update digital clock (no seconds for larger font)
-        this.timeElement.textContent = `${hours}:${minutes}`;
+        // Update digital clock with hours, minutes and seconds
+        document.getElementById(
+            "hours-minutes"
+        ).textContent = `${hours}:${minutes}`;
 
-        if (this.showDate) {
-            const options = { year: "numeric", month: "long", day: "numeric" };
-            this.dateElement.textContent = now.toLocaleDateString(
-                "en-US",
-                options
-            );
+        // Only update seconds if they're visible
+        if (this.showSeconds) {
+            document.getElementById("seconds").textContent = secondsStr;
         }
 
-        if (this.showWeekday) {
-            const options = { weekday: "long" };
-            this.weekdayElement.textContent = now.toLocaleDateString(
-                "en-US",
-                options
-            );
+        if (this.showDate) {
+            // Format date as "Mon 7/28/25"
+            const day = now.toLocaleDateString("en-US", { weekday: "short" });
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const year = now.getFullYear().toString().slice(-2);
+            this.dateElement.textContent = `${day} ${month}/${date}/${year}`;
         }
 
         // Update analog clock (with seconds hand)
@@ -142,9 +174,55 @@ class ClockWeatherApp {
         const minuteAngle = minutes * 6;
         const secondAngle = seconds * 6;
 
-        this.hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
-        this.minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
-        this.secondHand.style.transform = `translateX(-50%) rotate(${secondAngle}deg)`;
+        // Special handling for second hand to prevent counter-clockwise animation
+        if (this.prevSeconds === 59 && seconds === 0) {
+            // When transitioning from 59 to 0 seconds
+            // First, ensure we're at 59 seconds position (354 degrees)
+            this.secondHand.style.transition = "none";
+            this.secondHand.style.transform = `translateX(-50%) rotate(354deg)`;
+            this.secondHand.offsetHeight; // Force reflow
+
+            // Then immediately set to 360 degrees (same as 0 but ensures clockwise movement)
+            this.secondHand.style.transform = `translateX(-50%) rotate(360deg)`;
+            this.secondHand.offsetHeight; // Force reflow
+
+            // Finally, remove transition, set to 0 degrees, and restore transition
+            this.secondHand.style.transition = "none";
+            this.secondHand.style.transform = `translateX(-50%) rotate(0deg)`;
+            this.secondHand.offsetHeight; // Force reflow
+            this.secondHand.style.transition =
+                "transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        } else {
+            // Normal second hand movement
+            this.secondHand.style.transform = `translateX(-50%) rotate(${secondAngle}deg)`;
+        }
+
+        // Update previous seconds for next tick
+        this.prevSeconds = seconds;
+
+        // Handle minute hand
+        if (minutes === 0 && seconds === 0) {
+            // Same approach for minute hand
+            this.minuteHand.style.transition = "none";
+            this.minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+            this.minuteHand.offsetHeight;
+            this.minuteHand.style.transition =
+                "transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        } else {
+            this.minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+        }
+
+        // Handle hour hand
+        if (hours % 12 === 0 && minutes === 0 && seconds === 0) {
+            // Same approach for hour hand
+            this.hourHand.style.transition = "none";
+            this.hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+            this.hourHand.offsetHeight;
+            this.hourHand.style.transition =
+                "transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44)";
+        } else {
+            this.hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+        }
     }
 
     toggleClockType() {
@@ -174,12 +252,14 @@ class ClockWeatherApp {
         this.saveSettings();
     }
 
-    toggleWeekday() {
-        this.showWeekday = !this.showWeekday;
-        this.weekdayElement.style.display = this.showWeekday ? "block" : "none";
-        document.getElementById("toggle-weekday").textContent = this.showWeekday
-            ? "Hide Weekday"
-            : "Show Weekday";
+    toggleSeconds() {
+        this.showSeconds = !this.showSeconds;
+        this.secondsElement.style.display = this.showSeconds
+            ? "inline"
+            : "none";
+        document.getElementById("toggle-seconds").textContent = this.showSeconds
+            ? "Hide Seconds"
+            : "Show Seconds";
         this.saveSettings();
     }
 
@@ -338,7 +418,7 @@ class ClockWeatherApp {
         const settings = {
             clockType: this.clockType,
             showDate: this.showDate,
-            showWeekday: this.showWeekday,
+            showSeconds: this.showSeconds,
         };
         localStorage.setItem("clockWeatherSettings", JSON.stringify(settings));
     }
@@ -350,9 +430,9 @@ class ClockWeatherApp {
             this.clockType = settings.clockType || "digital";
             this.showDate =
                 settings.showDate !== undefined ? settings.showDate : true;
-            this.showWeekday =
-                settings.showWeekday !== undefined
-                    ? settings.showWeekday
+            this.showSeconds =
+                settings.showSeconds !== undefined
+                    ? settings.showSeconds
                     : true;
 
             // Apply settings
@@ -364,8 +444,8 @@ class ClockWeatherApp {
                 this.toggleDate();
             }
 
-            if (!this.showWeekday) {
-                this.toggleWeekday();
+            if (!this.showSeconds) {
+                this.toggleSeconds();
             }
         }
     }
@@ -397,13 +477,32 @@ class ClockWeatherApp {
         if (clockSettings && locationInput) {
             clockSettings.style.display = "flex";
             locationInput.style.display = "flex";
-
-            // Hide after 5 seconds
-            setTimeout(() => {
-                clockSettings.style.display = "none";
-                locationInput.style.display = "none";
-            }, 5000);
+            this.menuVisible = true;
         }
+    }
+
+    hideOptions() {
+        // Hide clock settings and weather input
+        const clockSettings = document.querySelector(".clock-settings");
+        const locationInput = document.querySelector(".location-input");
+
+        if (clockSettings && locationInput) {
+            clockSettings.style.display = "none";
+            locationInput.style.display = "none";
+            this.menuVisible = false;
+        }
+    }
+
+    resetInactivityTimer() {
+        // Clear existing timer
+        if (this.inactivityTimer) {
+            clearTimeout(this.inactivityTimer);
+        }
+
+        // Set new timer - hide options after 30 seconds of inactivity
+        this.inactivityTimer = setTimeout(() => {
+            this.hideOptions();
+        }, 30000); // 30 seconds
     }
 
     getCurrentLocation() {
