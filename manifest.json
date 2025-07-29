@@ -2,7 +2,7 @@
     "name": "Clock & Weather PWA",
     "short_name": "ClockWeather",
     "description": "A beautiful clock and weather app for your tablet",
-    "version": "1.1.0",
+    "version": "1.3.0",
     "start_url": "/clock-weather-pwa/",
     "display": "fullscreen",
     "orientation": "landscape",

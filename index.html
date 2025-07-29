@@ -15,10 +15,10 @@
             content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="ClockWeather" />
-        <link rel="manifest" href="manifest.json?v=4" />
+        <link rel="manifest" href="manifest.json?v=5" />
         <link rel="icon" type="image/png" href="icons/icon-192x192.png" />
         <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
-        <link rel="stylesheet" href="styles.css?v=4" />
+        <link rel="stylesheet" href="styles.css?v=5" />
     </head>
     <body>
         <div class="container">
@@ -29,6 +29,17 @@
 
             <!-- Left Half - Clock Section -->
             <div class="clock-section">
+                <div class="clock-settings">
+                    <button id="toggle-clock" class="setting-btn">
+                        Switch to Analog
+                    </button>
+                    <button id="toggle-date" class="setting-btn">
+                        Hide Date
+                    </button>
+                    <button id="toggle-seconds" class="setting-btn">
+                        Hide Seconds
+                    </button>
+                </div>
                 <div class="clock-container">
                     <div id="digital-clock" class="digital-clock">
                         <div id="time" class="time">
@@ -64,17 +75,6 @@
                             <div class="number number-11">11</div>
                         </div>
                     </div>
-                </div>
-                <div class="clock-settings">
-                    <button id="toggle-clock" class="setting-btn">
-                        Switch to Analog
-                    </button>
-                    <button id="toggle-date" class="setting-btn">
-                        Hide Date
-                    </button>
-                    <button id="toggle-seconds" class="setting-btn">
-                        Hide Seconds
-                    </button>
                 </div>
             </div>
 
@@ -136,6 +136,6 @@
             </div>
         </div>
 
-        <script src="app.js?v=4"></script>
+        <script src="app.js?v=5"></script>
     </body>
 </html>
